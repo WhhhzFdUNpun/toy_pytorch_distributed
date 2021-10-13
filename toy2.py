@@ -83,19 +83,18 @@ def run(rank, size):
 
 def main(argv):
     job_name = FLAGS.job_name
+    master_addrs, master_port = FLAGS.ps_hosts.split(':')
+    os.environ['MASTER_ADDR'] = master_addrs
+    os.environ['MASTER_PORT'] = master_port
     if job_name == PS_JOB_NAME:
         print('no idea')
     elif job_name == WORKER_JOB_NAME:
         world = FLAGS.worker_hosts.split(',')
-        print(world)
-        print(len(world))
-        print(FLAGS.task_index, 'could that be used as rank?')
+        init_processes(FLAGS.task_index, len(world), run)
 
 
 def init_processes(rank, size, fn, backend='mpi'):
     """ Initialize the distributed environment. """
-    os.environ['MASTER_ADDR'] = '127.0.0.1'
-    os.environ['MASTER_PORT'] = '29500'
     dist.init_process_group(backend, rank=rank, world_size=size)
     # dist.init_process_group(backend, world_size=size)
     fn(rank, size)
