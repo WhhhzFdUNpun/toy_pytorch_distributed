@@ -114,8 +114,6 @@ def entry(datasets=None, checkpoint_path=None, restore_file_path=None):
         FLAGS.checkpoint_path = checkpoint_path
     if restore_file_path is not None:
         FLAGS.restore_file_path = restore_file_path
-    print(os.environ['MASTER_ADDR'])
-    print(os.environ['MASTER_PORT'])
 
     print(FLAGS)
     main(argv=[sys.argv[0]] + unparsed)
