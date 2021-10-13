@@ -93,7 +93,7 @@ def main(argv):
         init_processes(FLAGS.task_index, len(world), run)
 
 
-def init_processes(rank, size, fn, backend='mpi'):
+def init_processes(rank, size, fn, backend='nccl'):
     """ Initialize the distributed environment. """
     dist.init_process_group(backend, rank=rank, world_size=size)
     # dist.init_process_group(backend, world_size=size)
